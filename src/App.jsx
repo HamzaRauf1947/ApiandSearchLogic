@@ -7,10 +7,9 @@ function App() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(8);
-  const [search,setSerach] = useState("")
   const [input,setInput] =useState("")
   console.log('input value ',input);
-  console.log('search value ',search);
+
   
 
   useEffect(() => {
@@ -30,9 +29,13 @@ function App() {
   }, []);
 
   const filteredProducts = products.filter(product => 
-    product.title.toLowerCase().includes(search.toLowerCase())
+    product.title.toLowerCase().includes(input.toLowerCase())
   );
 
+
+  useEffect(()=>{
+    setCurrentPage(1)
+  },[input])
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
   const currentPost = filteredProducts.slice(firstPostIndex, lastPostIndex);
@@ -53,9 +56,7 @@ function App() {
             placeholder="Search the products..."
             className="w-full max-w-lg px-4 py-2.5 rounded-lg border border-gray-300 focus:border-yellow-300  text-white placeholder-gray-400 transition-all duration-200 hover:border-gray-400 hover:shadow-md focus:outline-none"
           />
-          <button
-          onClick={()=>setSerach(input)}
-          className="bg-yellow-300 text-white py-2.5 px-2 font-bold cursor-pointer rounded-[4px]">Search</button>
+         
           
         </div>
         <ProductList products={currentPost}  />
